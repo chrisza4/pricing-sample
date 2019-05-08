@@ -9,7 +9,8 @@ describe('CouponData', () => {
   beforeEach(() => {
     return CouponData._testClear()
   })
-  describe('addCoupont', () => {
+
+  describe('addCoupon', () => {
     it('should be able to add coupon', async () => {
       const code = 'my1'
       const couponBefore = await CouponData.getCouponByCode(code)

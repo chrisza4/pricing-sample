@@ -8,7 +8,7 @@ async function connect () {
   if (_connected) {
     return
   }
-  await mongoose.connect(config.MONGO_URL, { useNewUrlParser: true })
+  await mongoose.connect(config.MONGO_URL, { useNewUrlParser: true, useFindAndModify: false })
   mongoose.connection.on('error', (err) => log.error(err, 'MongoDb connection error:'))
   log.info('MongoDb Connected')
   _connected = true
