@@ -3,8 +3,10 @@ describe('CouponDomain', () => {
   const normalCoupon = {
     code: 'hi',
     type: 'percent',
-    expired_at: new Date('2019-01-01')
+    expired_at: new Date('2019-01-01'),
+    consumed_at: new Date('2019-01-01')
   }
+
   describe('validCoupon', () => {
     it('should return true for normal coupon type', () => {
       expect(CouponDomain.validCoupon(normalCoupon)).toBeTruthy()
@@ -21,6 +23,19 @@ describe('CouponDomain', () => {
       expect(CouponDomain.validCoupon({
         ...normalCoupon,
         expired_at: null
+      })).toBeFalsy()
+    })
+  })
+
+  describe('isConsumed', () => {
+    it('should return true for coupon that have consumed date', () => {
+      expect(CouponDomain.isConsumed(normalCoupon)).toBeTruthy()
+    })
+
+    it('should return false for coupon that not have consumed date', () => {
+      expect(CouponDomain.isConsumed({
+        ...normalCoupon,
+        consumed_at: null
       })).toBeFalsy()
     })
   })

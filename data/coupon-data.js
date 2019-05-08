@@ -1,5 +1,4 @@
 const CouponModel = require('../models/coupon-models')
-const CouponDomain = require('../domains/coupon-domain')
 const NotFoundError = require('../errors/NotFoundError')
 
 function getCouponByCode (code) {
@@ -27,9 +26,6 @@ async function addCoupon ({ code, expiredAt, type }) {
     code,
     expired_at: expiredAt,
     type
-  }
-  if (!CouponDomain.validCoupon(coupon)) {
-    throw new TypeError('Invalid coupon type')
   }
   return CouponModel.create(coupon)
 }

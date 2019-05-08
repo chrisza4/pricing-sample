@@ -11,6 +11,11 @@ function validCoupon (coupon) {
   return !!coupon && validCouponType(coupon) && !!coupon.expired_at
 }
 
+function isConsumed (coupon) {
+  return !!coupon.consumed_at
+}
+
 module.exports = {
-  validCoupon
+  validCoupon,
+  isConsumed
 }
