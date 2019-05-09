@@ -8,6 +8,7 @@ class InvalidRequestError extends Error {
 
     this.name = 'InvalidRequestError'
     this.date = new Date()
+    this.detail = params[1]
   }
 }
 

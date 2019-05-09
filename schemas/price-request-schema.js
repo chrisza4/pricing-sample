@@ -10,7 +10,7 @@ const priceRequestSchema = Joi.object().keys({
 function validatePriceRequest (data) {
   const v = Joi.validate(data, priceRequestSchema, { stripUnknown: true })
   if (v.error) {
-    throw new InvalidRequestError('Invalid Request')
+    throw new InvalidRequestError('Invalid Request', v.error.message)
   }
   return v.value
 }
