@@ -6,7 +6,8 @@ const itemModel = new mongoose.Schema({
     type: String,
     index: true
   },
-  quantity: Number
+  quantity: Number,
+  price: Number
 }, { timestamps: true })
 
 module.exports = mongoose.model('items', itemModel)
