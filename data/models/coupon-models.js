@@ -12,7 +12,8 @@ const couponModel = new mongoose.Schema({
   },
   type: String,
   discount_pct: Number,
-  expired_at: Date
+  expired_at: Date,
+  discount_value: Number
 }, { timestamps: true })
 
 module.exports = mongoose.model('coupons', couponModel)

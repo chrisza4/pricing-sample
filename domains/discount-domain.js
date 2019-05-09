@@ -13,9 +13,12 @@ function applyCoupon (coupon, price, item, now = new Date()) {
         ok: true,
         newPrice: price * (1 - (coupon.discount_pct / 100))
       }
-    // case 'amount': {
-
-    // }
+    case couponTypes.value: {
+      return {
+        ok: true,
+        newPrice: price - coupon.discount_value
+      }
+    }
   }
   return {
     ok: false,
