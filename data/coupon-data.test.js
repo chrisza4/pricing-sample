@@ -19,7 +19,7 @@ describe('CouponData', () => {
       expect(couponBefore).toBeNull()
       await CouponData.addCoupon({
         code: 'my1',
-        expiredAt: moment('2019-01-01').toDate(),
+        expired_at: moment('2019-01-01').toDate(),
         type: couponTypes.percent
       })
       const couponAfter = await CouponData.getCouponByCode(code)
@@ -31,7 +31,7 @@ describe('CouponData', () => {
     it('should be able to consumed a coupon', async () => {
       const freshCoupon = await CouponData.addCoupon({
         code: 'my1',
-        expiredAt: moment('2019-01-01').toDate(),
+        expired_at: moment('2019-01-01').toDate(),
         type: couponTypes.percent
       })
       expect(CouponDomain.isConsumed(freshCoupon)).toBeFalsy()

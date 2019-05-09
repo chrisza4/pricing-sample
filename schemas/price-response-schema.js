@@ -2,7 +2,8 @@ const Joi = require('joi')
 
 const priceResponseSchema = Joi.object().keys({
   price: Joi.number().required(),
-  normalPrice: Joi.number().required()
+  normalPrice: Joi.number().required(),
+  message: Joi.string()
 })
 
 function validatepriceResponse (data) {

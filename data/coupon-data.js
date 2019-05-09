@@ -21,12 +21,7 @@ async function consumedCoupon (code, time = new Date()) {
   return coupon
 }
 
-async function addCoupon ({ code, expiredAt, type }) {
-  const coupon = {
-    code,
-    expired_at: expiredAt,
-    type
-  }
+async function addCoupon (coupon) {
   return CouponModel.create(coupon)
 }
 
