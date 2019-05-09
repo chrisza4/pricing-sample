@@ -1,5 +1,5 @@
 class InvalidRequestError extends Error {
-  constructor (params) {
+  constructor (...params) {
     super(...params)
 
     if (Error.captureStackTrace) {

@@ -24,30 +24,6 @@ describe('CouponData', () => {
       const couponAfter = await CouponData.getCouponByCode(code)
       expect(couponAfter.code).toEqual(code)
     })
-
-    it('not allowed invalid coupon type', () => {
-      return CouponData.addCoupon({
-        code: 'code',
-        expiredAt: moment('2019-01-01').toDate(),
-        type: 'random_type'
-      }).then(() => {
-        throw Error('Should npt okay')
-      }, (err) => {
-        expect(err.name).toEqual('TypeError')
-      })
-    })
-
-    it('not allowed non-expired coupon', () => {
-      return CouponData.addCoupon({
-        code: 'code',
-        expiredAt: null,
-        type: 'percent'
-      }).then(() => {
-        throw Error('Should npt okay')
-      }, (err) => {
-        expect(err.name).toEqual('TypeError')
-      })
-    })
   })
 
   describe('consumedCoupon', () => {
