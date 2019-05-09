@@ -1,5 +1,5 @@
-const CouponModel = require('../models/coupon-models')
-const NotFoundError = require('../errors/NotFoundError')
+const CouponModel = require('./models/coupon-models')
+const NotFoundError = require('../errors/not-found-error')
 
 function getCouponByCode (code) {
   return CouponModel.findOne({ code: code }).lean()

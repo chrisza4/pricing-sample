@@ -1,4 +1,4 @@
-const ItemModel = require('../models/item-models')
+const ItemModel = require('./models/item-models')
 
 function getItemByCode (code) {
   return ItemModel.findOne({ code: code }).lean()
