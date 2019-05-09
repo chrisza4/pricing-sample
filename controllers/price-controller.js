@@ -2,10 +2,10 @@ const { validatePriceRequest } = require('../schemas/price-request-schema')
 const { expressHandler } = require('./express-handler')
 const { getPrice } = require('../services/price-service')
 
-async function getPriceHandler (request, response, next) {
+async function getPriceHandler (request, response) {
   const priceRequest = validatePriceRequest(request.query)
   const priceResponse = await getPrice(priceRequest)
-  request.json(priceResponse)
+  response.json(priceResponse)
 }
 
 module.exports = {
