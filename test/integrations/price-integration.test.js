@@ -1,14 +1,14 @@
 const supertest = require('supertest')
-const server = require('../../server')
 const moment = require('moment')
-const { connect } = require('../../connections/mongo')
 
+const { initDb } = require('../helpers/initDb')
 const ItemData = require('../../data/item-data')
 const CouponData = require('../../data/coupon-data')
+const server = require('../../server')
 
 describe('/price', () => {
   beforeEach(async () => {
-    await connect()
+    await initDb()
     return Promise.all(
       [
         ItemData.addItem({
@@ -36,6 +36,7 @@ describe('/price', () => {
       ]
     )
   })
+
   it('Should be able to fetch price without coupon', async () => {
     const response = await supertest(server)
       .get('/price')
@@ -66,6 +67,9 @@ describe('/price', () => {
         quantity: 3,
         coupon: 'june_100'
       })
-    expect(response.status).toEqual(400)
+    expect(response.status).toEqual(200)
+    const { normalPrice, price } = response.body
+    expect(normalPrice).toEqual(1620)
+    expect(price).toEqual(1620 * 0.8)
   })
 })

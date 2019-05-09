@@ -8,7 +8,12 @@ function addItem (item) {
   return ItemModel.create(item).then(c => c.toObject())
 }
 
+function _testClear () {
+  return ItemModel.deleteMany({})
+}
+
 module.exports = {
   getItemByCode,
-  addItem
+  addItem,
+  _testClear
 }
