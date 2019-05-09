@@ -14,15 +14,14 @@ async function getPrice (priceRequest) {
   const normalPrice = item.price * priceRequest.quantity
   if (!priceRequest.coupon) {
     return {
-      normalPrice, price: normalPrice
+      normalPrice, price: normalPrice, message: ''
     }
   }
   const price = DiscountDomain.applyCoupon(coupon, normalPrice, item)
-
   if (!price.ok) {
-    throw new Error('Coupon error')
+    return { normalPrice, price: normalPrice, message: price.error }
   }
-  return { normalPrice, price: price.newPrice }
+  return { normalPrice, price: price.newPrice, message: 'Coupon applied' }
 }
 
 module.exports = {

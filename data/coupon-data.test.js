@@ -2,6 +2,7 @@ const moment = require('moment')
 const CouponData = require('./coupon-data')
 const { setup } = require('../connections/setup')
 const CouponDomain = require('../domains/coupon-domain')
+const { couponTypes } = CouponDomain
 
 describe('CouponData', () => {
   beforeAll(() => {
@@ -19,7 +20,7 @@ describe('CouponData', () => {
       await CouponData.addCoupon({
         code: 'my1',
         expiredAt: moment('2019-01-01').toDate(),
-        type: 'percent'
+        type: couponTypes.percent
       })
       const couponAfter = await CouponData.getCouponByCode(code)
       expect(couponAfter.code).toEqual(code)
@@ -31,7 +32,7 @@ describe('CouponData', () => {
       const freshCoupon = await CouponData.addCoupon({
         code: 'my1',
         expiredAt: moment('2019-01-01').toDate(),
-        type: 'percent'
+        type: couponTypes.percent
       })
       expect(CouponDomain.isConsumed(freshCoupon)).toBeFalsy()
       await CouponData.consumedCoupon('my1', moment('2019-01-02').toDate())

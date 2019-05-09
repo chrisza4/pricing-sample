@@ -17,5 +17,6 @@ function isConsumed (coupon) {
 
 module.exports = {
   validCoupon,
-  isConsumed
+  isConsumed,
+  couponTypes
 }

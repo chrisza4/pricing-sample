@@ -1,8 +1,10 @@
 const CouponDomain = require('./coupon-domain')
+const { couponTypes } = CouponDomain
+
 describe('CouponDomain', () => {
   const normalCoupon = {
     code: 'hi',
-    type: 'percent',
+    type: couponTypes.percent,
     expired_at: new Date('2019-01-01'),
     consumed_at: new Date('2019-01-01')
   }

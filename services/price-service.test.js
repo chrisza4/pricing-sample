@@ -1,9 +1,11 @@
 jest.mock('../data/item-data')
 jest.mock('../data/coupon-data')
 
+const moment = require('moment')
 const PriceService = require('./price-service')
 const ItemData = require('../data/item-data')
 const CouponData = require('../data/coupon-data')
+const { couponTypes } = require('../domains/coupon-domain')
 
 describe('PriceService', () => {
   describe('getPrice', () => {
@@ -56,9 +58,9 @@ describe('PriceService', () => {
       })
       CouponData.getCouponByCode.mockResolvedValue({
         code: couponCode,
-        type: 'percent',
+        type: couponTypes.percent,
         discount_pct: 10,
-        expired_at: new Date('2200-01-01')
+        expired_at: moment('2100-01-01').toDate()
       })
       const price = await PriceService.getPrice({
         quantity: 20,
@@ -67,6 +69,31 @@ describe('PriceService', () => {
       })
       expect(price.normalPrice).toEqual(2000)
       expect(price.price).toEqual(1800)
+      expect(price.message).toEqual('Coupon applied')
+    })
+
+    it('Given an expired coupon, should return same price with error message', async () => {
+      const couponCode = 'coupon1'
+      ItemData.getItemByCode.mockResolvedValue({
+        title: 'Item A',
+        code: 'item_a',
+        quantity: 20,
+        price: 100
+      })
+      CouponData.getCouponByCode.mockResolvedValue({
+        code: couponCode,
+        type: couponTypes.percent,
+        discount_pct: 10,
+        expired_at: moment('1999-01-01').toDate()
+      })
+      const price = await PriceService.getPrice({
+        quantity: 20,
+        itemcode: 'item_a',
+        coupon: couponCode
+      })
+      expect(price.normalPrice).toEqual(2000)
+      expect(price.price).toEqual(2000)
+      expect(price.message).toEqual('Coupon expired')
     })
   })
 })
