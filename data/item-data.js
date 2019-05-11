@@ -5,7 +5,7 @@ function getItemByCode (code) {
 }
 
 function addItem (item) {
-  return ItemModel.create(item).then(c => c.toObject())
+  return ItemModel.create(item).then(c => c ? c.toObject() : null)
 }
 
 function _testClear () {
