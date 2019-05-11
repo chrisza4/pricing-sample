@@ -32,6 +32,13 @@ describe('/price', () => {
           type: 'percent',
           discount_pct: 20,
           expired_at: moment().add(1, 'days').toDate()
+        }),
+        CouponData.addCoupon({
+          code: 'expired',
+          valid_items: [ ],
+          type: 'percent',
+          discount_pct: 20,
+          expired_at: moment().subtract(2, 'days').toDate()
         })
       ]
     )
@@ -71,5 +78,30 @@ describe('/price', () => {
     const { normalPrice, price } = response.body
     expect(normalPrice).toEqual(1620)
     expect(price).toEqual(1620 * 0.8)
+  })
+
+  it('Should return error when stock exceeds', async () => {
+    const response = await supertest(server)
+      .get('/price')
+      .query({
+        itemcode: 'item1',
+        quantity: 20,
+        coupon: 'june_100'
+      })
+    expect(response.status).toEqual(406)
+  })
+
+  it('Should return same price for expired coupon', async () => {
+    const response = await supertest(server)
+      .get('/price')
+      .query({
+        itemcode: 'item1',
+        quantity: 3,
+        coupon: 'expired'
+      })
+    expect(response.status).toEqual(200)
+    const { normalPrice, price } = response.body
+    expect(normalPrice).toEqual(1620)
+    expect(price).toEqual(1620)
   })
 })
