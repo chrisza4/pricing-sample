@@ -1,7 +1,9 @@
-function expressHandler (handler) {
+function expressHandler ({ validator, handler }) {
   return async (request, response, next) => {
     try {
-      await handler(request, response)
+      const responseJson = await handler(request, response)
+      validator(responseJson)
+      response.json(responseJson)
     } catch (err) {
       next(err)
     }
