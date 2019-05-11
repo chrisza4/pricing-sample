@@ -9,20 +9,20 @@ describe('CouponDomain', () => {
     consumed_at: new Date('2019-01-01')
   }
 
-  describe('validCoupon', () => {
+  describe('isCouponValid', () => {
     it('should return true for normal coupon type', () => {
-      expect(CouponDomain.validCoupon(normalCoupon)).toBeTruthy()
+      expect(CouponDomain.isCouponValid(normalCoupon)).toBeTruthy()
     })
 
     it('should return false for wrong coupon type', () => {
-      expect(CouponDomain.validCoupon({
+      expect(CouponDomain.isCouponValid({
         ...normalCoupon,
         type: 'random'
       })).toBeFalsy()
     })
 
     it('should return false for non-expired coupon', () => {
-      expect(CouponDomain.validCoupon({
+      expect(CouponDomain.isCouponValid({
         ...normalCoupon,
         expired_at: null
       })).toBeFalsy()
