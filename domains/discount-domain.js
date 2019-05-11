@@ -2,21 +2,29 @@ const moment = require('moment')
 const { couponTypes } = require('./coupon-domain')
 
 function applyCoupon (coupon, price, item, now = new Date()) {
+  if (!coupon) {
+    return { normalPrice: price, price, message: '' }
+  }
   const { ok, error } = validateCoupon(coupon, price, item, now)
   if (!ok) {
-    return { ok, error, newPrice: null }
+    return {
+      normalPrice: price,
+      price,
+      message: error
+    }
   }
-
   switch (coupon.type) {
     case couponTypes.percent:
       return {
-        ok: true,
-        newPrice: price * (1 - (coupon.discount_pct / 100))
+        normalPrice: price,
+        price: price * (1 - (coupon.discount_pct / 100)),
+        message: 'Coupon applied'
       }
     case couponTypes.value: {
       return {
-        ok: true,
-        newPrice: price - coupon.discount_value
+        normalPrice: price,
+        price: price - coupon.discount_value,
+        message: 'Coupon applied'
       }
     }
   }

@@ -12,9 +12,10 @@ describe('ApplyCoupon', () => {
       discount_pct: 20,
       expired_at: moment('2019-03-01').toDate()
     })
-    const { ok, newPrice } = DiscountDomain.applyCoupon(coupon, 400, Fixtures.mockItem(), today)
-    expect(ok).toBeTruthy()
-    expect(newPrice).toEqual(320)
+    const { normalPrice, price, message } = DiscountDomain.applyCoupon(coupon, 400, Fixtures.mockItem(), today)
+    expect(normalPrice).toEqual(400)
+    expect(price).toEqual(320)
+    expect(message).toEqual('Coupon applied')
   })
 
   it('for coupon with value, given price 300 and discount value 40, return new price of 260', () => {
@@ -23,9 +24,10 @@ describe('ApplyCoupon', () => {
       discount_value: 40,
       expired_at: moment('2019-03-01').toDate()
     })
-    const { ok, newPrice } = DiscountDomain.applyCoupon(coupon, 300, Fixtures.mockItem(), today)
-    expect(ok).toBeTruthy()
-    expect(newPrice).toEqual(260)
+    const { normalPrice, price, message } = DiscountDomain.applyCoupon(coupon, 300, Fixtures.mockItem(), today)
+    expect(normalPrice).toEqual(300)
+    expect(price).toEqual(260)
+    expect(message).toEqual('Coupon applied')
   })
 
   it('for expired coupon, should not be able to applied', () => {
@@ -36,8 +38,16 @@ describe('ApplyCoupon', () => {
       discount_pct: 20,
       expired_at: expiredDate
     })
-    const { ok, error } = DiscountDomain.applyCoupon(coupon, 400, Fixtures.mockItem(), today)
-    expect(ok).toBeFalsy()
-    expect(error).toEqual('Coupon expired')
+    const { normalPrice, price, message } = DiscountDomain.applyCoupon(coupon, 300, Fixtures.mockItem(), today)
+    expect(message).toEqual('Coupon expired')
+    expect(normalPrice).toEqual(300)
+    expect(normalPrice).toEqual(price)
+  })
+
+  it('for no coupon, should return same price with no extra message', () => {
+    const { normalPrice, price, message } = DiscountDomain.applyCoupon(null, 300, Fixtures.mockItem(), today)
+    expect(message).toEqual('')
+    expect(normalPrice).toEqual(300)
+    expect(normalPrice).toEqual(price)
   })
 })
