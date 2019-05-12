@@ -51,7 +51,7 @@ describe('ApplyCoupon', () => {
     expect(normalPrice).toEqual(price)
   })
 
-  it('for price less than 500 baht, should not be able to applied', () => {
+  it('for 20% discount coupon and price <= 1000 baht, should not be able to applied', () => {
     const expiredDate = moment('2019-01-01').toDate()
     const coupon = Fixtures.mockCoupon({
       type: couponTypes.percent,
