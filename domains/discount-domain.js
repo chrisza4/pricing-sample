@@ -27,6 +27,20 @@ function applyCoupon (coupon, price, item, now = new Date()) {
         message: 'Coupon applied'
       }
     }
+    case couponTypes.twentyPercentForMoreOnethousandThb:
+      if (price > 1000) {
+        return {
+          normalPrice: price,
+          price: price * (1 - (coupon.discount_pct / 100)),
+          message: 'Coupon applied'
+        }
+      } else {
+        return {
+          normalPrice: price,
+          price: price,
+          message: 'Coupon not applied'
+        }
+      }
   }
   return {
     ok: false,
