@@ -4,9 +4,24 @@ const { couponTypes } = CouponDomain
 describe('CouponDomain', () => {
   const normalCoupon = {
     code: 'hi',
+    valid_items: [],
     type: couponTypes.percent,
     expired_at: new Date('2019-01-01'),
     consumed_at: new Date('2019-01-01')
+  }
+  const specificItemCoupon = {
+    code: 'hi2',
+    valid_items: ['item_a'],
+    type: couponTypes.percent,
+    expired_at: new Date('2019-01-01'),
+    consumed_at: new Date('2019-01-01')
+  }
+
+  const item = {
+    title: 'Item A',
+    code: 'item_a',
+    quantity: 5,
+    price: 100
   }
 
   describe('isCouponValid', () => {
@@ -26,6 +41,12 @@ describe('CouponDomain', () => {
         ...normalCoupon,
         expired_at: null
       })).toBeFalsy()
+    })
+
+    it('should return true for valid specific item', () => {
+      expect(CouponDomain.isCouponItemValid({
+        ...specificItemCoupon
+      }, item)).toBeTruthy()
     })
   })
 
