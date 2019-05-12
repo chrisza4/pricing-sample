@@ -13,7 +13,6 @@ function isCouponValid (coupon, item) {
 
 function isCouponItemValid (coupon, item) {
   let isValidItem = true
-  console.log(coupon)
   if (coupon.valid_items.length > 0) {
     isValidItem = coupon.valid_items.indexOf(item.code) !== -1
     console.log(isValidItem)
