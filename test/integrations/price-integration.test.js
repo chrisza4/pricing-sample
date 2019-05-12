@@ -14,17 +14,20 @@ describe('/price', () => {
         ItemData.addItem({
           code: 'item1',
           price: 540,
-          quantity: 5
+          quantity: 5,
+          allowCoupon: true
         }),
         ItemData.addItem({
           code: 'item2',
           price: 100,
-          quantity: 20
+          quantity: 20,
+          allowCoupon: false
         }),
         ItemData.addItem({
           code: 'item3',
           price: 300,
-          quantity: 11
+          quantity: 11,
+          allowCoupon: true
         }),
         CouponData.addCoupon({
           code: 'june_100',
