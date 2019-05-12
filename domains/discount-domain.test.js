@@ -50,4 +50,22 @@ describe('ApplyCoupon', () => {
     expect(normalPrice).toEqual(300)
     expect(normalPrice).toEqual(price)
   })
+
+  it('for coupon with invalid condition, should not be able to apply', () => {
+    const coupon = Fixtures.mockCoupon({
+      type: couponTypes.percent,
+      discount_pct: 20,
+      conditions: [
+        {
+          type: 'greater_than',
+          value: 1000
+        }
+      ],
+      expired_at: moment('2019-03-01').toDate()
+    })
+    const { normalPrice, price, message } = DiscountDomain.applyCoupon(coupon, 900, Fixtures.mockItem(), today)
+    expect(message).toEqual('Price must be greater than 1000')
+    expect(normalPrice).toEqual(900)
+    expect(normalPrice).toEqual(price)
+  })
 })

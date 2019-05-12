@@ -1,5 +1,5 @@
 const moment = require('moment')
-const { couponTypes } = require('./coupon-domain')
+const { couponTypes, conditionTypes } = require('./coupon-domain')
 
 function applyCoupon (coupon, price, item, now = new Date()) {
   if (!coupon) {
@@ -39,6 +39,20 @@ function validateCoupon (coupon, price, item, now = new Date()) {
     return {
       ok: false,
       error: 'Coupon expired'
+    }
+  }
+  if (coupon.conditions) {
+    for (let i = 0; i < coupon.conditions.length; i++) {
+      switch (coupon.conditions[i].type) {
+        case conditionTypes.greaterThan:
+          if (price <= coupon.conditions[i].value) {
+            return {
+              ok: false,
+              error: `Price must be greater than ${coupon.conditions[i].value}`
+            }
+          }
+          break
+      }
     }
   }
   return {

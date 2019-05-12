@@ -3,6 +3,10 @@ const couponTypes = {
   value: 'value'
 }
 
+const conditionTypes = {
+  greaterThan: 'greater_than'
+}
+
 function validCouponType (coupon) {
   return Object.values(couponTypes).includes(coupon.type)
 }
@@ -18,5 +22,6 @@ function isConsumed (coupon) {
 module.exports = {
   isCouponValid,
   isConsumed,
-  couponTypes
+  couponTypes,
+  conditionTypes
 }
