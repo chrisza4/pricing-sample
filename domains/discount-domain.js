@@ -5,14 +5,24 @@ function applyCoupon (coupon, price, item, now = new Date()) {
   if (!coupon) {
     return { normalPrice: price, price, message: '' }
   }
-  const { ok, error } = validateCoupon(coupon, price, item, now)
-  if (!ok) {
+  const couponValidateResult = validateCoupon(coupon, price, item, now)
+  if (!couponValidateResult.ok) {
     return {
       normalPrice: price,
       price,
-      message: error
+      message: couponValidateResult.error
     }
   }
+
+  const itemValidateResult = canItemApplyCoupon(item)
+  if (!itemValidateResult.ok) {
+    return {
+      normalPrice: price,
+      price,
+      message: itemValidateResult.error
+    }
+  }
+
   switch (coupon.type) {
     case couponTypes.percent:
       return {
@@ -31,6 +41,18 @@ function applyCoupon (coupon, price, item, now = new Date()) {
   return {
     ok: false,
     newPrice: null
+  }
+}
+
+function canItemApplyCoupon (item) {
+  if (item.cannot_apply_coupon) {
+    return {
+      ok: false,
+      error: 'Coupon cannot be applied to this item'
+    }
+  }
+  return {
+    ok: true
   }
 }
 

@@ -7,7 +7,8 @@ const itemModel = new mongoose.Schema({
     index: true
   },
   quantity: Number,
-  price: Number
+  price: Number,
+  cannot_apply_coupon: Boolean
 }, { timestamps: true })
 
 module.exports = mongoose.model('items', itemModel)

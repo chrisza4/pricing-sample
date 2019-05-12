@@ -26,6 +26,12 @@ describe('/price', () => {
           price: 300,
           quantity: 11
         }),
+        ItemData.addItem({
+          code: 'item4',
+          price: 300,
+          quantity: 11,
+          cannot_apply_coupon: true
+        }),
         CouponData.addCoupon({
           code: 'june_100',
           valid_items: [ ],
@@ -103,5 +109,19 @@ describe('/price', () => {
     const { normalPrice, price } = response.body
     expect(normalPrice).toEqual(1620)
     expect(price).toEqual(1620)
+  })
+
+  it('Should return same price for a specific item that cannot apply coupon', async () => {
+    const response = await supertest(server)
+      .get('/price')
+      .query({
+        itemcode: 'item4',
+        quantity: 3,
+        coupon: 'june_100'
+      })
+    expect(response.status).toEqual(200)
+    const { normalPrice, price } = response.body
+    expect(normalPrice).toEqual(900)
+    expect(price).toEqual(900)
   })
 })

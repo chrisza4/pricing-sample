@@ -44,6 +44,22 @@ describe('ApplyCoupon', () => {
     expect(normalPrice).toEqual(price)
   })
 
+  it.only('for item that cannot apply coupon, coupon should not be able to applied', () => {
+    const unapplableItem = Fixtures.mockItem({
+      cannot_apply_coupon: true
+    })
+
+    const coupon = Fixtures.mockCoupon({
+      type: couponTypes.percent,
+      discount_pct: 20,
+      expired_at: moment('2019-03-01').toDate()
+    })
+    const { normalPrice, price, message } = DiscountDomain.applyCoupon(coupon, 300, unapplableItem, today)
+    expect(message).toEqual('Coupon cannot be applied to this item')
+    expect(normalPrice).toEqual(300)
+    expect(normalPrice).toEqual(price)
+  })
+
   it('for no coupon, should return same price with no extra message', () => {
     const { normalPrice, price, message } = DiscountDomain.applyCoupon(null, 300, Fixtures.mockItem(), today)
     expect(message).toEqual('')

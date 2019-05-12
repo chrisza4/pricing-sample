@@ -22,6 +22,12 @@ async function seeds () {
         price: 300,
         quantity: 11
       }),
+      ItemData.addItem({
+        code: 'item4',
+        price: 300,
+        quantity: 11,
+        cannot_apply_coupon: true
+      }),
       CouponData.addCoupon({
         code: 'june_100',
         valid_items: [ ],
