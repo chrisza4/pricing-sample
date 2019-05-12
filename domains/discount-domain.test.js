@@ -55,7 +55,7 @@ describe('ApplyCoupon', () => {
       today
     )
     expect(normalPrice).toEqual(4999)
-    expect(price).toBeCloseTo(3999.2, 6)
+    expect(price).toBeCloseTo(3999.2, precision)
     expect(message).toEqual('Coupon applied')
   })
 
