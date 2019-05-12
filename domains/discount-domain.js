@@ -41,10 +41,10 @@ function validateCoupon(coupon, price, item, now = new Date()) {
       error: 'Coupon expired'
     }
   }
-  if (coupon.type === couponTypes.percent && coupon.discount_pct === 20 && price <= 1000) {
+  if (coupon.price_limit_for_discount > price) {
     return {
       ok: false,
-      error: '20% for more than 1,000 THB shop'
+      error: `Total price less than coupon price limit`
     }
   }
   return {

@@ -51,15 +51,16 @@ describe('ApplyCoupon', () => {
     expect(normalPrice).toEqual(price)
   })
 
-  it('for 20% discount coupon and price <= 1000 baht, should not be able to applied', () => {
+  it('for price less than price limit discount, should not be able to applied', () => {
     const expiredDate = moment('2019-01-01').toDate()
     const coupon = Fixtures.mockCoupon({
       type: couponTypes.percent,
       discount_pct: 20,
-      expired_at: today
+      expired_at: today,
+      price_limit_for_discount: 1000
     })
     const { normalPrice, price, message } = DiscountDomain.applyCoupon(coupon, 300, Fixtures.mockItem(), today)
-    expect(message).toEqual('20% for more than 1,000 THB shop')
+    expect(message).toEqual('Total price less than coupon price limit')
     expect(normalPrice).toEqual(300)
     expect(normalPrice).toEqual(price)
   })

@@ -12,6 +12,7 @@ const couponModel = new mongoose.Schema({
   },
   type: String,
   discount_pct: Number,
+  price_limit_for_discount: Number,
   expired_at: Date,
   discount_value: Number
 }, { timestamps: true })
