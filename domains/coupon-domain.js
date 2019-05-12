@@ -1,7 +1,7 @@
 const couponTypes = {
   percent: 'percent',
   value: 'value',
-  twentyPercentForMoreOnethousandThb: 'twentyPercentForMoreOnethousandThb'// #3
+  percentForAmountExeed: 'percentForAmountExeed'// #3
 }
 
 function validCouponType (coupon) {

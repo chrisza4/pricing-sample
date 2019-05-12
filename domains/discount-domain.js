@@ -27,8 +27,8 @@ function applyCoupon (coupon, price, item, now = new Date()) {
         message: 'Coupon applied'
       }
     }
-    case couponTypes.twentyPercentForMoreOnethousandThb:
-      if (price > 1000) {
+    case couponTypes.percentForAmountExeed:
+      if (price > coupon.amount_exeed) {
         return {
           normalPrice: price,
           price: price * (1 - (coupon.discount_pct / 100)),

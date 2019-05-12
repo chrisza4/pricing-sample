@@ -51,10 +51,12 @@ describe('ApplyCoupon', () => {
     expect(normalPrice).toEqual(price)
   })
 
-  it('for coupon type twentyPercentForMoreOnethousandThb, give price 2,000, return new price of 1,600 and Coupon applied', () => {
+  // #3 : start
+  it('for coupon type percentForAmountExeed, 20% for more than 1,000 THB shop give price 2,000, return new price of 1,600 and Coupon applied', () => {
     const coupon = Fixtures.mockCoupon({
-      type: couponTypes.twentyPercentForMoreOnethousandThb,
+      type: couponTypes.percentForAmountExeed,
       discount_pct: 20,
+      amount_exeed: 1000,
       expired_at: moment('2019-06-01').toDate()
     })
     const { normalPrice, price, message } = DiscountDomain.applyCoupon(coupon, 2000, Fixtures.mockItem(), today)
@@ -62,11 +64,12 @@ describe('ApplyCoupon', () => {
     expect(price).toEqual(1600)
     expect(message).toEqual('Coupon applied')
   })
-  // #3 : start
-  it('for coupon type twentyPercentForMoreOnethousandThb, give price 500, return new price of 500 and Coupon not applied', () => {
+
+  it('for coupon type percentForAmountExeed, 20% for more than 1,000 THB shop give price 500, return new price of 500 and Coupon not applied', () => {
     const coupon = Fixtures.mockCoupon({
-      type: couponTypes.twentyPercentForMoreOnethousandThb,
+      type: couponTypes.percentForAmountExeed,
       discount_pct: 20,
+      amount_exeed: 1000,
       expired_at: moment('2019-06-01').toDate()
     })
     const { normalPrice, price, message } = DiscountDomain.applyCoupon(coupon, 500, Fixtures.mockItem(), today)
@@ -75,10 +78,11 @@ describe('ApplyCoupon', () => {
     expect(message).toEqual('Coupon not applied')
   })
 
-  it('for coupon type twentyPercentForMoreOnethousandThb, give price 1,000, return new price of 1,000 and Coupon not applied', () => {
+  it('for coupon type percentForAmountExeed, 20% for more than 1,000 THB shop give price 1,000, return new price of 1,000 and Coupon not applied', () => {
     const coupon = Fixtures.mockCoupon({
-      type: couponTypes.twentyPercentForMoreOnethousandThb,
+      type: couponTypes.percentForAmountExeed,
       discount_pct: 20,
+      amount_exeed: 1000,
       expired_at: moment('2019-06-01').toDate()
     })
     const { normalPrice, price, message } = DiscountDomain.applyCoupon(coupon, 1000, Fixtures.mockItem(), today)
