@@ -48,6 +48,12 @@ describe('CouponDomain', () => {
         ...specificItemCoupon
       }, item)).toBeTruthy()
     })
+
+    it('should return false for invalid specific item', () => {
+      expect(CouponDomain.isCouponItemValid({
+        ...specificItemCoupon
+      }, { code: 'item_b' })).toBeFalsy()
+    })
   })
 
   describe('isConsumed', () => {
