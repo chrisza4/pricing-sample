@@ -1,7 +1,7 @@
 const moment = require('moment')
 const { couponTypes } = require('./coupon-domain')
 
-function applyCoupon (coupon, price, item, now = new Date()) {
+function applyCoupon(coupon, price, item, now = new Date()) {
   if (!coupon) {
     return { normalPrice: price, price, message: '' }
   }
@@ -34,11 +34,17 @@ function applyCoupon (coupon, price, item, now = new Date()) {
   }
 }
 
-function validateCoupon (coupon, price, item, now = new Date()) {
+function validateCoupon(coupon, price, item, now = new Date()) {
   if (moment(coupon.expired_at).isBefore(moment(now))) {
     return {
       ok: false,
       error: 'Coupon expired'
+    }
+  }
+  if (coupon.type === couponTypes.percent && coupon.discount_pct === 20 && price <= 1000) {
+    return {
+      ok: false,
+      error: '20% for more than 1,000 THB shop'
     }
   }
   return {
