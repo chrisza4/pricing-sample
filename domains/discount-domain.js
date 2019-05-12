@@ -13,6 +13,7 @@ function applyCoupon(coupon, price, item, now = new Date()) {
       message: error,
     }
   }
+
   switch (coupon.type) {
     case couponTypes.percent:
       return {
@@ -27,16 +28,6 @@ function applyCoupon(coupon, price, item, now = new Date()) {
         message: 'Coupon applied',
       }
     }
-    case couponTypes.applyunder:
-      let discountPrice =
-        price < coupon.valid_price
-          ? price * (1 - coupon.discount_pct / 100)
-          : price
-      return {
-        normalPrice: price,
-        price: discountPrice,
-        message: 'Coupon applied',
-      }
   }
   return {
     ok: false,
@@ -49,6 +40,12 @@ function validateCoupon(coupon, price, item, now = new Date()) {
     return {
       ok: false,
       error: 'Coupon expired',
+    }
+  }
+  if (coupon.applycond === 'applyunder' && price >= coupon.valid_price) {
+    return {
+      ok: false,
+      error: 'Coupon not match condition',
     }
   }
   return {

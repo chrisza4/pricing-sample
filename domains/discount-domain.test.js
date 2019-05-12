@@ -41,10 +41,11 @@ describe('ApplyCoupon', () => {
     expect(message).toEqual('Coupon applied')
   })
 
-  it('for coupon with discount price that must be apply under 5000, given price of 4999 and discount 20%, return new price of 3999.2', () => {
+  it('for coupon with discount pct that must be apply under 5000, given price of 4999 and discount 20%, return new price of 3999.2', () => {
     const coupon = Fixtures.mockCoupon({
-      type: couponTypes.applyunder,
+      type: couponTypes.percent,
       discount_pct: 20,
+      applycond: 'applyunder',
       valid_price: 5000,
       expired_at: moment('2019-03-01').toDate(),
     })
@@ -59,10 +60,11 @@ describe('ApplyCoupon', () => {
     expect(message).toEqual('Coupon applied')
   })
 
-  it('for coupon with discount price that must be apply under 5000, given price of 5000 and discount 20%, return new price of 5000', () => {
+  it('for coupon with discount pct that must be apply under 5000, given price of 5000 and discount 20%, return new price of 5000', () => {
     const coupon = Fixtures.mockCoupon({
-      type: couponTypes.applyunder,
+      type: couponTypes.percent,
       discount_pct: 20,
+      applycond: 'applyunder',
       valid_price: 5000,
       expired_at: moment('2019-03-01').toDate(),
     })
@@ -74,7 +76,7 @@ describe('ApplyCoupon', () => {
     )
     expect(normalPrice).toEqual(5000)
     expect(price).toEqual(5000)
-    expect(message).toEqual('Coupon applied')
+    expect(message).toEqual('Coupon not match condition')
   })
 
   it('for expired coupon, should not be able to applied', () => {
@@ -93,6 +95,27 @@ describe('ApplyCoupon', () => {
     )
     expect(message).toEqual('Coupon expired')
     expect(normalPrice).toEqual(300)
+    expect(normalPrice).toEqual(price)
+  })
+
+  it('for coupon with applycond="applyunder" and price is over or equal valid_price, should not be able to applied', () => {
+    const expiredDate = moment('2019-03-01').toDate()
+
+    const coupon = Fixtures.mockCoupon({
+      type: couponTypes.percent,
+      discount_pct: 20,
+      valid_price: 5000,
+      applycond: 'applyunder',
+      expired_at: expiredDate,
+    })
+    const { normalPrice, price, message } = DiscountDomain.applyCoupon(
+      coupon,
+      5001,
+      Fixtures.mockItem(),
+      today
+    )
+    expect(message).toEqual('Coupon not match condition')
+    expect(normalPrice).toEqual(5001)
     expect(normalPrice).toEqual(price)
   })
 
