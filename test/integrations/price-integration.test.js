@@ -39,6 +39,13 @@ describe('/price', () => {
           type: 'percent',
           discount_pct: 20,
           expired_at: moment().subtract(2, 'days').toDate()
+        }),
+        CouponData.addCoupon({
+          code: 'spec_item_2',
+          valid_items: ['item2'],
+          type: 'percent',
+          discount_pct: 20,
+          expired_at: moment().subtract(1, 'days').toDate()
         })
       ]
     )
