@@ -7,7 +7,7 @@ function validCouponType (coupon) {
   return Object.values(couponTypes).includes(coupon.type)
 }
 
-function isCouponValid (coupon, item) {
+function isCouponValid (coupon) {
   return !!coupon && validCouponType(coupon) && !!coupon.expired_at
 }
 
