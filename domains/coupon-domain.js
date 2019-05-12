@@ -1,7 +1,6 @@
 const couponTypes = {
   percent: 'percent',
   value: 'value',
-  applyunder: 'applyunder',
 }
 
 function validCouponType(coupon) {
