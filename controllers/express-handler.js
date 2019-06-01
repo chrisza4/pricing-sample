@@ -1,3 +1,4 @@
+const { errorHandler } = require('./error-controller')
 function expressHandler ({ validator, handler }) {
   return async (request, response, next) => {
     try {
@@ -5,7 +6,7 @@ function expressHandler ({ validator, handler }) {
       validator(responseJson)
       response.json(responseJson)
     } catch (err) {
-      next(err)
+      errorHandler(err, response)
     }
   }
 }
