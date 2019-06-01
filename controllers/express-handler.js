@@ -3,8 +3,7 @@ function expressHandler ({ validator, handler }) {
   return async (request, response, next) => {
     try {
       const responseJson = await handler(request, response)
-      validator(responseJson)
-      response.json(responseJson)
+      response.json(validator(responseJson))
     } catch (err) {
       errorHandler(err, response)
     }
