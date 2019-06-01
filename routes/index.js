@@ -1,9 +1,10 @@
 const PriceController = require('../controllers/price-controller')
+const UserController = require('../controllers/user-controller')
 
 function setup (app) {
   app.get('/price', PriceController.getPriceHandler)
   // app.get('/login')
-  // app.get('/signup')
+  app.post('/signup', UserController.signupHandler)
 }
 
 module.exports = {
