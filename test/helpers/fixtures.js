@@ -1,6 +1,6 @@
 const { couponTypes } = require('../../domains/coupon-domain')
 
-function mockCoupon (props = { }) {
+function mockCoupon (props = {}) {
   const defaultCoupon = {
     code: 'code_1',
     type: couponTypes.percent,
@@ -13,7 +13,7 @@ function mockCoupon (props = { }) {
   }
 }
 
-function mockItem (props = { }) {
+function mockItem (props = {}) {
   const defaultItem = {
     title: 'Item A',
     code: 'item_a',
@@ -26,7 +26,19 @@ function mockItem (props = { }) {
   }
 }
 
+function mockUser (props = {}) {
+  const defaultUser = {
+    email: 'steve.j@apple.com',
+    password: 'aaaa'
+  }
+  return {
+    ...defaultUser,
+    ...props
+  }
+}
+
 module.exports = {
   mockCoupon,
-  mockItem
+  mockItem,
+  mockUser
 }
