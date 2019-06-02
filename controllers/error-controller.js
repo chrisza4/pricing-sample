@@ -14,6 +14,7 @@ function errorHandler (err, response) {
         .status(406)
         .json({ err: 'bad_request', message: err.message })
     default:
+      console.error(err)
       return response
         .status(500)
         .json({ err: 'internal', message: err.message })

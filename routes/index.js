@@ -3,7 +3,7 @@ const UserController = require('../controllers/user-controller')
 
 function setup (app) {
   app.get('/price', PriceController.getPriceHandler)
-  // app.get('/login')
+  app.post('/login', UserController.loginHandler)
   app.post('/signup', UserController.signupHandler)
 }
 

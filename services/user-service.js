@@ -9,6 +9,18 @@ async function signUp (user) {
   return UserData.addUser(newUser)
 }
 
+async function login (email, password) {
+  const user = await UserData.getByEmail(email)
+  if (!user || !PasswordDomain.validatePassword(user.password, password)) {
+    return { success: false }
+  }
+  return {
+    success: true,
+    token: 'token'
+  }
+}
+
 module.exports = {
-  signUp
+  signUp,
+  login
 }
