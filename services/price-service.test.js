@@ -34,12 +34,13 @@ describe('PriceService', () => {
         price: 100
       })
       return PriceService.getPrice({
-        quantity: 20, itemcode: 'item_a'
+        quantity: 20,
+        itemcode: 'item_a'
       }).then(
         () => {
           throw new Error('Should failed')
         },
-        (err) => {
+        err => {
           expect(err.name).toEqual('OutOfStockError')
         }
       )
@@ -95,5 +96,65 @@ describe('PriceService', () => {
       expect(price.price).toEqual(2000)
       expect(price.message).toEqual('Coupon expired')
     })
+
+    it('item A price 1200 quantity 1, request price with coupon of 20% discount when price is more than 1000, should return 960', async () => {
+      const couponCode = 'coupon1'
+      ItemData.getItemByCode.mockResolvedValue({
+        title: 'Item A',
+        code: 'item_a',
+        quantity: 1,
+        price: 1200
+      })
+      CouponData.getCouponByCode.mockResolvedValue({
+        code: couponCode,
+        type: couponTypes.percent,
+        discount_pct: 20,
+        conditions: [
+          {
+            type: 'greater_than',
+            value: 1000
+          }
+        ],
+        expired_at: moment('2100-01-01').toDate()
+      })
+      const price = await PriceService.getPrice({
+        quantity: 1,
+        itemcode: 'item_a',
+        coupon: couponCode
+      })
+      expect(price.normalPrice).toEqual(1200)
+      expect(price.price).toEqual(960)
+      expect(price.message).toEqual('Coupon applied')
+    })
+  })
+
+  it('Given an invalid condition coupon, should return same price with error message', async () => {
+    const couponCode = 'coupon1'
+    ItemData.getItemByCode.mockResolvedValue({
+      title: 'Item A',
+      code: 'item_a',
+      quantity: 1,
+      price: 900
+    })
+    CouponData.getCouponByCode.mockResolvedValue({
+      code: couponCode,
+      type: couponTypes.percent,
+      discount_pct: 20,
+      conditions: [
+        {
+          type: 'greater_than',
+          value: 1000
+        }
+      ],
+      expired_at: moment('2100-01-01').toDate()
+    })
+    const price = await PriceService.getPrice({
+      quantity: 1,
+      itemcode: 'item_a',
+      coupon: couponCode
+    })
+    expect(price.normalPrice).toEqual(900)
+    expect(price.price).toEqual(900)
+    expect(price.message).toEqual('Price must be greater than 1000')
   })
 })

@@ -10,6 +10,10 @@ const couponModel = new mongoose.Schema({
     type: Array,
     index: true
   },
+  conditions: {
+    type: Array,
+    index: true
+  },
   type: String,
   discount_pct: Number,
   expired_at: Date,
