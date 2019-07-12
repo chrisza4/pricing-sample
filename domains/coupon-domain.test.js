@@ -9,6 +9,13 @@ describe('CouponDomain', () => {
     consumed_at: new Date('2019-01-01')
   }
 
+  const defaultItem = {
+    title: 'Item A',
+    code: 'item_a',
+    quantity: 5,
+    price: 1000
+  }
+
   describe('isCouponValid', () => {
     it('should return true for normal coupon type', () => {
       expect(CouponDomain.isCouponValid(normalCoupon)).toBeTruthy()
@@ -26,6 +33,20 @@ describe('CouponDomain', () => {
         ...normalCoupon,
         expired_at: null
       })).toBeFalsy()
+    })
+
+    it('should return true for coupon specific exist item', () => {
+      expect(CouponDomain.isCouponValidWithItem({
+        ...normalCoupon,
+        valid_item: ['item_a']
+      }, defaultItem)).toBeTruthy()
+    })
+
+    it('should return false for coupon specific non exist item', () => {
+      expect(CouponDomain.isCouponValidWithItem({
+        ...normalCoupon,
+        valid_item: ['item_b']
+      }, defaultItem)).toBeFalsy()
     })
   })
 
