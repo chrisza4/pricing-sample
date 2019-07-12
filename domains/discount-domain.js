@@ -41,6 +41,15 @@ function validateCoupon (coupon, price, item, now = new Date()) {
       error: 'Coupon expired'
     }
   }
+
+  const specificItems = coupon.specific_item || []
+  if (specificItems.length > 0 && !specificItems.includes(item._id)) {
+    return {
+      ok: false,
+      error: 'Item not apply this coupon'
+    }
+  }
+
   return {
     ok: true
   }
