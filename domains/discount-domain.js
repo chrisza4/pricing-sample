@@ -1,7 +1,7 @@
 const moment = require('moment')
 const { couponTypes } = require('./coupon-domain')
 
-function applyCoupon (coupon, price, item, now = new Date()) {
+function applyCoupon(coupon, price, item, now = new Date()) {
   if (!coupon) {
     return { normalPrice: price, price, message: '' }
   }
@@ -34,11 +34,17 @@ function applyCoupon (coupon, price, item, now = new Date()) {
   }
 }
 
-function validateCoupon (coupon, price, item, now = new Date()) {
+function validateCoupon(coupon, price, item, now = new Date()) {
   if (moment(coupon.expired_at).isBefore(moment(now))) {
     return {
       ok: false,
       error: 'Coupon expired'
+    }
+  }
+  if (coupon.price_limit_for_discount > price) {
+    return {
+      ok: false,
+      error: `Total price less than coupon price limit`
     }
   }
   return {
