@@ -14,7 +14,8 @@ describe('PriceService', () => {
         title: 'Item A',
         code: 'item_a',
         quantity: 5,
-        price: 100
+        price: 100,
+        allowCoupon: false
       })
 
       const price = await PriceService.getPrice({
@@ -31,7 +32,8 @@ describe('PriceService', () => {
         title: 'Item A',
         code: 'item_a',
         quantity: 10,
-        price: 100
+        price: 100,
+        allowCoupon: false
       })
       return PriceService.getPrice({
         quantity: 20, itemcode: 'item_a'
@@ -54,7 +56,8 @@ describe('PriceService', () => {
         title: 'Item A',
         code: 'item_a',
         quantity: 20,
-        price: 100
+        price: 100,
+        allowCoupon: true
       })
       CouponData.getCouponByCode.mockResolvedValue({
         code: couponCode,
@@ -77,6 +80,7 @@ describe('PriceService', () => {
       ItemData.getItemByCode.mockResolvedValue({
         title: 'Item A',
         code: 'item_a',
+        allowCoupon: true,
         quantity: 20,
         price: 100
       })

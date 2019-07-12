@@ -17,3 +17,14 @@ describe('containStock', () => {
     expect(ItemDomain.containStock(items, 20)).toBeFalsy()
   })
 })
+
+describe('Item support coupon', () => {
+  it('should be false if item not support coupon', () => {
+    const item = mockItem({ allowCoupon: false })
+    expect(ItemDomain.thisItemNotSupportCoupon(item, '001')).toBeTruthy()
+  })
+  it('should be true if item support coupon', () => {
+    const item = mockItem({ allowCoupon: true })
+    expect(ItemDomain.thisItemNotSupportCoupon(item, '001')).toBeFalsy()
+  })
+})
